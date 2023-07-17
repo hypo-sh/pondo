@@ -1,0 +1,2 @@
+{:paths ["src"]
+ :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-349-ge9996713"}}}
