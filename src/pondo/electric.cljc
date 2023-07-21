@@ -1,5 +1,5 @@
 (ns pondo.electric
-  (:require [goog.string :as gstring]
+  (:require #?(:cljs [goog.string :as gstring])
             [clojure.edn :as edn]
             [contrib.electric-goog-history :as hist]
             [hyperfiddle.electric :as e]))
