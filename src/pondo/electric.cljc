@@ -4,6 +4,7 @@
             [contrib.electric-goog-history :as hist]
             [hyperfiddle.electric :as e]))
 
+(e/def root-route-data {})
 (e/def active-route-data {})
 (e/def active-path [])
 (e/def config {})
@@ -11,14 +12,14 @@
 (e/defn UrlRoot
   [conf F]
   (e/client
-   (println (-> hist/path (subs 4)))
-   (binding [config conf
-             active-route-data
-             (-> hist/path
-                 (subs (count (::root-path conf)))
-                 (gstring/urlDecode)
-                 (edn/read-string))]
-     (new F))))
+   (let [rd (-> hist/path
+                (subs (count (::root-path conf)))
+                (gstring/urlDecode)
+                (edn/read-string))]
+     (binding [config conf
+               active-route-data rd
+               root-route-data rd]
+       (new F)))))
 
 (e/defn Mount
   [match F]
@@ -28,7 +29,7 @@
       (new F active-path params))))
 
 (e/defn Href [f]
-  (let [d (f active-route-data)
+  (let [d (f root-route-data)
         root-path (::root-path config)
         encoded
         (gstring/urlEncode (str d))]
