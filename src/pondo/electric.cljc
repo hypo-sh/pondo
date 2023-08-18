@@ -1,5 +1,6 @@
 (ns pondo.electric
   (:require #?(:cljs [goog.string :as gstring])
+            [pondo.core :as core]
             [clojure.edn :as edn]
             [contrib.electric-goog-history :as hist]
             [hyperfiddle.electric :as e]))
@@ -34,3 +35,6 @@
         encoded
         (gstring/urlEncode (str d))]
     (str root-path encoded)))
+
+(e/defn RouteData [path]
+  (core/route-data-at path root-route-data))

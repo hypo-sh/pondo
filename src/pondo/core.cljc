@@ -41,13 +41,22 @@
   (fn [state]
     (update-in state [k 0] f)))
 
+(defn route-data-at
+  [path route-data]
+  (let [next (rest path)]
+    (if (seq next)
+      (recur next (-> route-data ((first path)) second))
+      (-> route-data ((first path)) first))))
+
 (comment
   (def state
     {:events [1 {:origin [nil nil]
                  :list [3 nil]
                  :detail [nil {:d [nil nil]}]}]})
 
-  ;; non-macro form
+  (= (route-data-at [:events :list] state) 3)
+
+;; non-macro form
   (-> state
       ((-at [:events]
             (fn [state]
