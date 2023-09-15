@@ -11,7 +11,7 @@
 (e/def config {})
 
 (e/defn UrlRoot
-  [conf F]
+  [conf F & args]
   (e/client
    (let [rd (-> hist/path
                 (subs (count (::root-path conf)))
@@ -20,7 +20,7 @@
      (binding [config conf
                active-route-data rd
                root-route-data rd]
-       (new F)))))
+       (e/apply F args)))))
 
 (e/defn Mount
   [match F]
